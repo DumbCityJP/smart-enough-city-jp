@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import home from './markdown/home.md';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	const [md, setMd] = useState("");
+
+	useEffect(() => {
+		// importing '.md' file
+
+		const importMd = async () => {
+			const file = await fetch(home);
+			const homeMd = await file.text();
+			setMd(homeMd);
+		}
+
+		importMd();
+	}, []);
+
+
+	return (
+		<div className="App">
+			<header className="App-header">
+				<h1 className='text-3xl text-pink-500 font-bold'>Smart Enough City JP</h1>
+			</header>
+			<ReactMarkdown children={md} />
+		</div>
+	);
 }
 
 export default App;
